@@ -19,9 +19,9 @@ namespace HotelFinder.WEB.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var hotel = _hotelService.GetAllHotel();
+            var hotel = await _hotelService.GetAllHotel();
             return Ok(hotel); //200 OK
         }
 
@@ -32,9 +32,9 @@ namespace HotelFinder.WEB.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetHotelById/{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var hotel = _hotelService.GetHotelById(id);
+            var hotel = await _hotelService.GetHotelById(id);
             if (hotel != null)
             {
                 return Ok(hotel);
@@ -44,9 +44,9 @@ namespace HotelFinder.WEB.Controllers
 
         [HttpGet]
         [Route("GetHotelByName/{name}")]
-        public IActionResult Get(string name)
+        public async Task<IActionResult> Get(string name)
         {
-            var hotel = _hotelService.GetHotelByName(name);
+            var hotel =await  _hotelService.GetHotelByName(name);
             if (hotel != null)
             {
                 return Ok(hotel);
@@ -60,11 +60,11 @@ namespace HotelFinder.WEB.Controllers
         /// <param name="hotel"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody] Hotel hotel)
+        public async Task<IActionResult> Post([FromBody] Hotel hotel)
         {
             if (ModelState.IsValid)
             {
-                var createdHotel=_hotelService.CreateHotel(hotel);
+                var createdHotel=await _hotelService.CreateHotel(hotel);
                 return Ok(createdHotel);
             }
             return BadRequest(ModelState);    
@@ -75,11 +75,11 @@ namespace HotelFinder.WEB.Controllers
         /// <param name="hotel"></param>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult Put([FromBody] Hotel hotel)
+        public async Task<IActionResult> Put([FromBody] Hotel hotel)
         {
-            if(_hotelService.GetHotelById(hotel.Id) != null)
+            if( await _hotelService.GetHotelById(hotel.Id) != null)
             {
-                return Ok(_hotelService.UpdateHotel(hotel));
+                return Ok( await _hotelService.UpdateHotel(hotel));
             }
             return NotFound();
         }
@@ -90,11 +90,11 @@ namespace HotelFinder.WEB.Controllers
         /// <param name="id"></param>
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if(_hotelService.GetHotelById(id) != null)
+            if( await _hotelService.GetHotelById(id) != null)
             {
-                _hotelService.DeleteHotelById(id);
+                 await _hotelService.DeleteHotelById(id);
                 return Ok();
             }
             return NotFound();
