@@ -13,44 +13,44 @@ namespace HotelFinder.Business.Concrete
             _hotelRepository = hotelRepository;
         }
 
-        public Hotel CreateHotel(Hotel hotel)
+        public async Task<Hotel> CreateHotel(Hotel hotel)
         {
-            return _hotelRepository.CreateHotel(hotel);
+            return await _hotelRepository.CreateHotel(hotel);
         }
 
-        public void DeleteHotelById(int id)
+        public async Task DeleteHotelById(int id)
         {
-            _hotelRepository.DeleteHotelById(id);
+            await _hotelRepository.DeleteHotelById(id);
         }
 
-        public List<Hotel> GetAllHotel()
+        public async Task<List<Hotel>> GetAllHotel()
         {
-            return _hotelRepository.GetAllHotel();
+            return  await _hotelRepository.GetAllHotel();
         }
 
-        public Hotel GetHotelById(int id)
+        public async Task<Hotel> GetHotelById(int id)
         {
 
             if (id > 0)
             {
-                return _hotelRepository.GetHotelById(id);
+                return  await _hotelRepository.GetHotelById(id);
             }
 
             throw new Exception("Id must be >1!");
         }
 
-        public Hotel GetHotelByName(string name)
+        public async Task<Hotel> GetHotelByName(string name)
         {
             if (name != null)
             {
-                return _hotelRepository.GetHotelByName(name);
+                return await _hotelRepository.GetHotelByName(name);
             }
             throw new Exception("name don't be null!");
         }
 
-        public Hotel UpdateHotel(Hotel hotel)
+        public async Task<Hotel> UpdateHotel(Hotel hotel)
         {
-            return _hotelRepository.UpdateHotel(hotel);
+            return  await _hotelRepository.UpdateHotel(hotel);
         }
     }
 }

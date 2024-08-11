@@ -1,5 +1,6 @@
 ﻿using HotelFinder.DataAccess.Abstract;
 using HotelFinderEntities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,59 +11,61 @@ namespace HotelFinder.DataAccess.Concrete
 {
     public class HotelRepository : IHotelRepository
     {
-        public Hotel CreateHotel(Hotel hotel)
+        public async Task<Hotel> CreateHotel(Hotel hotel)
         {
             using (var hotelDbContext = new AppDbContext())
             {
                 hotelDbContext.Hotels.Add(hotel);
-                hotelDbContext.SaveChanges();
+                await hotelDbContext.SaveChangesAsync();
                 return hotel;
             }
         }
 
-        public void DeleteHotelById(int id)
+        public async Task DeleteHotelById(int id)
         {
             using (var hotelDbContext = new AppDbContext())
             {
-                var deleteHotel = GetHotelById(id);
+                var deleteHotel = await GetHotelById(id);
                 hotelDbContext.Remove(deleteHotel);
-                hotelDbContext.SaveChanges();
+                await hotelDbContext.SaveChangesAsync();
             }
         }
 
-        public List<Hotel> GetAllHotel()
+        public async Task<List<Hotel>> GetAllHotel()
         {
             using (var hotelDbContext = new AppDbContext())
             {
-                return hotelDbContext.Hotels.ToList();
+                return await hotelDbContext.Hotels.ToListAsync();
             }
         }
 
-        public Hotel GetHotelById(int id)
+        public async Task<Hotel> GetHotelById(int id)
         {
             using (var hotelDbContext = new AppDbContext())
             {
-                return hotelDbContext.Hotels.Find(id);
+                return  await hotelDbContext.Hotels.FindAsync(id);
             }
         }
 
-        public Hotel GetHotelByName(string name)
+        public async Task<Hotel> GetHotelByName(string name)
         {
             using(var hotelDbContext = new AppDbContext())
             {
-                return hotelDbContext.Hotels.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+                return await hotelDbContext.Hotels.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
             }
         }
 
-        public Hotel UpdateHotel(Hotel hotel)
+        public async Task<Hotel> UpdateHotel(Hotel hotel)
         {
             using (var hotelDbContext = new AppDbContext())
             {
                 hotelDbContext.Hotels.Update(hotel);
-                hotelDbContext.SaveChanges();
+                await hotelDbContext.SaveChangesAsync();
                 return hotel;
 
             }
         }
+
+        
     }
 }
